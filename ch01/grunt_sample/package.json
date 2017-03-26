@@ -1,0 +1,16 @@
+{
+  "name": "grunt_sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no tests specified\" && exit 1"
+  },
+  "author": "dpitic",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-exec": "^2.0.0"
+  }
+}

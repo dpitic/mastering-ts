@@ -1,4 +1,6 @@
-console.log("hello vscode");
+/**
+ * Created by dpitic on 26/03/17.
+ */
 var MyClass = (function () {
     function MyClass() {
     }
