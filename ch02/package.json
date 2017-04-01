@@ -1,0 +1,14 @@
+{
+  "name": "ch02",
+  "version": "1.0.0",
+  "description": "Chapter 2 code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dpitic",
+  "license": "ISC",
+  "devDependencies": {
+    "typings": "^2.1.0"
+  }
+}
