@@ -1,3 +1,11 @@
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 // Type syntax
 function doCalculation(a, b, c) {
     return (a * b) + c;
@@ -147,3 +155,57 @@ function add(a, b) {
 }
 console.log("add(1,1) = " + add(1, 1));
 console.log("add(\"1\",\"1\") = " + add("1", "1"));
+// Union types
+var unionType;
+unionType = 1;
+console.log("unionType: " + unionType);
+unionType = "test";
+console.log("unionType: " + unionType);
+function addWithUnion(arg1, arg2) {
+    return arg1.toString() + arg2.toString();
+}
+console.log("addWithUnion(1,2) = " + addWithUnion(1, 2));
+console.log("addWithUnion(\"1\",\"2\") = " + addWithUnion("1", "2"));
+// Type guards
+function addWithTypeGuard(arg1, arg2) {
+    if (typeof arg1 === "string") {
+        console.log('first argument is a string');
+        return arg1 + arg2;
+    }
+    if (typeof arg1 === "number" && typeof arg2 === "number") {
+        console.log('both arguments are numbers');
+        return arg1 + arg2;
+    }
+    console.log('default return');
+    return arg1.toString() + arg2.toString();
+}
+console.log("addWithTypeGuard(1,2) = " + addWithTypeGuard(1, 2));
+console.log("addWithTypeGuard(\"1\",\"2\") = " + addWithTypeGuard("1", "2"));
+console.log("addWithTypeGuard(1,\"2\") = " + addWithTypeGuard(1, "2"));
+function addWithAlias(arg1, arg2) {
+    return arg1.toString() + arg2.toString();
+}
+function usingCallbackWithString(callback) {
+    callback("this is a string");
+}
+// Null and undefined
+function testUndef(test) {
+    console.log('test parameter:' + test);
+}
+testUndef(null);
+testUndef(1);
+var x;
+x = 1;
+x = undefined;
+var y;
+y = null;
+// Object rest and spread
+var firstObj = { id: 1, name: "firstObj" };
+var secondObj = __assign({}, firstObj);
+console.log("secondObj.id: " + secondObj.id);
+console.log("secondObj.name: " + secondObj.name);
+var nameObj = { name: "nameObj" };
+var idObj = { id: 2 };
+var obj3 = __assign({}, nameObj, idObj);
+console.log("obj3.id: " + obj3.id);
+console.log("obj3.name: " + obj3.name);

@@ -189,3 +189,85 @@ function add(a: any, b: any) : any {            // function definition must use
 }
 console.log(`add(1,1) = ${add(1,1)}`);
 console.log(`add("1","1") = ${add("1", "1")}`);
+
+// Union types
+var unionType: string | number;
+
+unionType = 1;
+console.log(`unionType: ${unionType}`);
+
+unionType = "test";
+console.log(`unionType: ${unionType}`);
+
+function addWithUnion(
+    arg1: string | number,
+    arg2: string | number
+) {
+    return arg1.toString() + arg2.toString();
+}
+console.log(`addWithUnion(1,2) = ${addWithUnion(1,2)}`);
+console.log(`addWithUnion("1","2") = ${addWithUnion("1","2")}`);
+
+// Type guards
+function addWithTypeGuard(
+    arg1: string | number,
+    arg2: string | number
+) : string | number {
+    if (typeof arg1 === "string") {
+        console.log('first argument is a string');
+        return arg1 + arg2;
+    }
+    if (typeof arg1 === "number" && typeof arg2 === "number") {
+        console.log('both arguments are numbers');
+        return arg1 + arg2;
+    }
+    console.log('default return');
+    return arg1.toString() + arg2.toString();
+}
+console.log(`addWithTypeGuard(1,2) = ${addWithTypeGuard(1,2)}`);
+console.log(`addWithTypeGuard("1","2") = ${addWithTypeGuard("1","2")}`);
+console.log(`addWithTypeGuard(1,"2") = ${addWithTypeGuard(1,"2")}`);
+
+// Type aliases
+type StringOrNumber = string | number;
+
+function addWithAlias(
+    arg1: StringOrNumber,
+    arg2: StringOrNumber
+) {
+    return arg1.toString() + arg2.toString();
+}
+
+type CallbackWithString = (string) => void;
+
+function usingCallbackWithString(callback: CallbackWithString) {
+    callback("this is a string");
+}
+
+// Null and undefined
+function testUndef(test: null | number) {
+    console.log('test parameter:' + test);
+}
+testUndef(null);
+testUndef(1);
+
+let x: number | undefined;
+x = 1;
+x = undefined;
+
+let y: number | null;
+y = null;
+
+// Object rest and spread
+let firstObj = { id: 1, name: "firstObj"};
+
+let secondObj = { ... firstObj };
+console.log(`secondObj.id: ${secondObj.id}`);
+console.log(`secondObj.name: ${secondObj.name}`);
+
+let nameObj = { name: "nameObj" };
+let idObj = { id: 2 };
+
+let obj3 = { ...nameObj, ...idObj };
+console.log(`obj3.id: ${obj3.id}`);
+console.log(`obj3.name: ${obj3.name}`);
