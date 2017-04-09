@@ -1,0 +1,11 @@
+{
+  "name": "ch03",
+  "version": "1.0.0",
+  "description": "Chapter 3 code",
+  "main": "gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dpitic",
+  "license": "ISC"
+}
