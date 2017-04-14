@@ -157,3 +157,103 @@ ct_1.usingFunctionCallbacks(myCallbackFunction);
 
 // Class modifiers
 // ===============
+
+class ClassWithPublicProperty {
+    public id: number;
+}
+
+let publicAccess = new ClassWithPublicProperty();
+publicAccess.id = 10;
+
+class ClassWithPrivateProperty {
+    private id: number;
+    constructor(_id: number) {
+        this.id = _id;
+    }
+}
+
+let privateAccess = new ClassWithPrivateProperty(10);
+// id property of privateAccess object is private
+
+// Constructor access modifiers
+// ============================
+
+class ClassWithAutomaticProperties {
+    // Object properties will be defined in the constructor parameter list
+    // ** This makes code harder to read compared to explicitly declaring **
+    // ** object properties.                                              **
+    constructor(public id: number, private name: string) {
+    }
+}
+
+let myAutoClass = new ClassWithAutomaticProperties(1, "className");
+console.log(`myAutoClass.id: ${myAutoClass.id}`);
+// name property of myAutoClass object is private
+
+// Readonly properties
+// ===================
+
+class ClassWithReadOnly {
+    readonly name: string;        // readonly can only be set in the constructor
+    constructor(_name: string) {
+        // Readonly properties can only be set in the constructor
+        this.name = _name;
+    }
+}
+
+// Class property accessors
+// ========================
+
+class ClassWithAccessors {
+    private _id: number;
+    get id() {
+        console.log(`inside get id()`);
+        return this._id;
+    }
+
+    set id(value: number) {
+        console.log(`inside set id()`);
+        this._id = value;
+    }
+}
+
+var classWithAccessors = new ClassWithAccessors();
+classWithAccessors.id = 2;
+console.log(`id property is set to ${classWithAccessors.id}`);
+
+// Static functions
+// ================
+
+class StaticClass {
+    static printTwo() {
+        console.log(`2`);
+    }
+}
+
+StaticClass.printTwo();
+
+// Static properties
+// =================
+
+class StaticProperty {
+    static count = 0;
+    updateCount() {
+        StaticProperty.count++;
+    }
+}
+
+let firstInstance = new StaticProperty();
+
+console.log(`StaticProperty.count = ${StaticProperty.count}`);
+firstInstance.updateCount();
+console.log(`StaticProperty.count = ${StaticProperty.count}`);
+
+let secondInstance = new StaticProperty();
+
+console.log(`StaticProperty.count = ${StaticProperty.count}`);
+secondInstance.updateCount();
+console.log(`StaticProperty.count = ${StaticProperty.count}`);
+
+// Namespaces
+// ==========
+

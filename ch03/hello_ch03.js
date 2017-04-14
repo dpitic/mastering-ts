@@ -116,5 +116,98 @@ function myCallbackFunction(id) {
 }
 ct_1.usingFunctionCallbacks(myCallbackFunction);
 // Class modifiers
-// =============== 
+// ===============
+var ClassWithPublicProperty = (function () {
+    function ClassWithPublicProperty() {
+    }
+    return ClassWithPublicProperty;
+}());
+var publicAccess = new ClassWithPublicProperty();
+publicAccess.id = 10;
+var ClassWithPrivateProperty = (function () {
+    function ClassWithPrivateProperty(_id) {
+        this.id = _id;
+    }
+    return ClassWithPrivateProperty;
+}());
+var privateAccess = new ClassWithPrivateProperty(10);
+// id property of privateAccess object is private
+// Constructor access modifiers
+// ============================
+var ClassWithAutomaticProperties = (function () {
+    // Object properties will be defined in the constructor parameter list
+    // ** This makes code harder to read compared to explicitly declaring **
+    // ** object properties.                                              **
+    function ClassWithAutomaticProperties(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+    return ClassWithAutomaticProperties;
+}());
+var myAutoClass = new ClassWithAutomaticProperties(1, "className");
+console.log("myAutoClass.id: " + myAutoClass.id);
+// name property of myAutoClass object is private
+// Readonly properties
+// ===================
+var ClassWithReadOnly = (function () {
+    function ClassWithReadOnly(_name) {
+        // Readonly properties can only be set in the constructor
+        this.name = _name;
+    }
+    return ClassWithReadOnly;
+}());
+// Class property accessors
+// ========================
+var ClassWithAccessors = (function () {
+    function ClassWithAccessors() {
+    }
+    Object.defineProperty(ClassWithAccessors.prototype, "id", {
+        get: function () {
+            console.log("inside get id()");
+            return this._id;
+        },
+        set: function (value) {
+            console.log("inside set id()");
+            this._id = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return ClassWithAccessors;
+}());
+var classWithAccessors = new ClassWithAccessors();
+classWithAccessors.id = 2;
+console.log("id property is set to " + classWithAccessors.id);
+// Static functions
+// ================
+var StaticClass = (function () {
+    function StaticClass() {
+    }
+    StaticClass.printTwo = function () {
+        console.log("2");
+    };
+    return StaticClass;
+}());
+StaticClass.printTwo();
+// Static properties
+// =================
+var StaticProperty = (function () {
+    function StaticProperty() {
+    }
+    StaticProperty.prototype.updateCount = function () {
+        StaticProperty.count++;
+    };
+    return StaticProperty;
+}());
+StaticProperty.count = 0;
+var firstInstance = new StaticProperty();
+console.log("StaticProperty.count = " + StaticProperty.count);
+firstInstance.updateCount();
+console.log("StaticProperty.count = " + StaticProperty.count);
+var secondInstance = new StaticProperty();
+console.log("StaticProperty.count = " + StaticProperty.count);
+secondInstance.updateCount();
+console.log("StaticProperty.count = " + StaticProperty.count);
+// Namespaces
+// ==========
 //# sourceMappingURL=hello_ch03.js.map
