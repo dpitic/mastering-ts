@@ -257,3 +257,64 @@ console.log(`StaticProperty.count = ${StaticProperty.count}`);
 // Namespaces
 // ==========
 
+namespace FirstNameSpace {
+    class NotExported {
+    }
+    export class NameSpaceClass {
+        id: number;
+    }
+}
+
+let firstNameSpace = new FirstNameSpace.NameSpaceClass();
+
+namespace SecondNameSpace {
+    export class NameSpaceClass {
+        name: string;
+    }
+}
+
+let secondNameSpace = new SecondNameSpace.NameSpaceClass();
+
+// Interface inheritance
+// =====================
+
+interface IBase {
+    id: number;
+}
+
+interface IDerivedFromBase extends IBase {
+    name: string;
+}
+
+class InterfaceInheritanceClass implements IDerivedFromBase {
+    id: number;
+    name: string;
+}
+
+// Class inheritance
+// =================
+
+class BaseClass implements IBase {
+    id: number;
+}
+
+class DerivedFromBaseClass extends BaseClass implements IDerivedFromBase {
+    name: string;
+}
+
+interface IFirstInterface {
+    id: number;
+}
+
+interface ISecondInterface {
+    name: string;
+}
+
+class MultipleInterfaces implements IFirstInterface, ISecondInterface {
+    id: number;
+    name: string;
+}
+
+// The super keyword
+// =================
+

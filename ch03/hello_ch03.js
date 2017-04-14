@@ -210,4 +210,34 @@ secondInstance.updateCount();
 console.log("StaticProperty.count = " + StaticProperty.count);
 // Namespaces
 // ==========
+var FirstNameSpace;
+(function (FirstNameSpace) {
+    var NotExported = (function () {
+        function NotExported() {
+        }
+        return NotExported;
+    }());
+    var NameSpaceClass = (function () {
+        function NameSpaceClass() {
+        }
+        return NameSpaceClass;
+    }());
+    FirstNameSpace.NameSpaceClass = NameSpaceClass;
+})(FirstNameSpace || (FirstNameSpace = {}));
+var firstNameSpace = new FirstNameSpace.NameSpaceClass();
+var SecondNameSpace;
+(function (SecondNameSpace) {
+    var NameSpaceClass = (function () {
+        function NameSpaceClass() {
+        }
+        return NameSpaceClass;
+    }());
+    SecondNameSpace.NameSpaceClass = NameSpaceClass;
+})(SecondNameSpace || (SecondNameSpace = {}));
+var secondNameSpace = new SecondNameSpace.NameSpaceClass();
+var InterfaceInheritanceClass = (function () {
+    function InterfaceInheritanceClass() {
+    }
+    return InterfaceInheritanceClass;
+}());
 //# sourceMappingURL=hello_ch03.js.map
