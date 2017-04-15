@@ -392,7 +392,7 @@ class Manager {
     public name: string;
     public employees: Employee[];
     printDetails() {
-        console.log(`id: ${this.id}, name: ${this.name}, 
+        console.log(`id: ${this.id}, name: ${this.name},
             employeeCount: ${this.employees.length}`);
     }
 }
@@ -400,8 +400,9 @@ class Manager {
 abstract class AbstractEmployee {
     public id: number;
     public name: string;
-    abstract getDetails(): string;
+    abstract getDetails(): string;    // subclasses must implement getDetails()
     public printDetails() {
+        // This calls the subclass getDetails()
         console.log(this.getDetails());
     }
 }
@@ -418,3 +419,111 @@ class NewManager extends NewEmployee {
         return super.getDetails() + `, employeeCount: ${this.employees.length}`;
     }
 }
+
+var employee = new NewEmployee();
+employee.id = 1;
+employee.name = "Employee Name";
+employee.printDetails();
+
+var manager = new NewManager();
+manager.id = 2;
+manager.name = "Manager Name";
+manager.employees = new Array();
+manager.printDetails();
+
+// Factory Design pattern
+// ======================
+
+enum PersonCategory {
+    Infant,
+    Child,
+    Adult
+}
+
+interface IPerson {
+    category: PersonCategory;
+    canSignContracts(): boolean;
+    printDetails();
+}
+
+abstract class Person implements IPerson {
+    category: PersonCategory;
+    private dateOfBirth: Date;
+
+    constructor(dateOfBirth: Date) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    abstract canSignContracts(): boolean;
+
+    printDetails(): void {
+        console.log(`Person: `);
+        console.log(`Date of Birth : ${this.dateOfBirth.toDateString()}`);
+        console.log(`Category      : ${PersonCategory[this.category]}`);
+        console.log(`Can sign      : ${this.canSignContracts()}`);
+    }
+}
+
+class Infant extends Person {
+
+    constructor(dateOfBirth: Date) {
+        super(dateOfBirth);
+        this.category = PersonCategory.Infant;
+    }
+
+    canSignContracts(): boolean { return false; }
+}
+
+class Child extends Person {
+
+    constructor(dateOfBirth: Date) {
+        super(dateOfBirth);
+        this.category = PersonCategory.Child;
+    }
+
+    canSignContracts(): boolean { return false; }
+}
+
+class Adult extends Person {
+
+    constructor(dateOfBirth: Date) {
+        super(dateOfBirth);
+        this.category = PersonCategory.Adult;
+    }
+
+    canSignContracts(): boolean { return true; }
+}
+
+class PersonFactory {
+    /**
+     * Return the correct type of person based on the date of birth.
+     */
+
+    getPerson(dateOfBirth: Date): IPerson {
+        let dateNow = new Date();                   // today's date
+        let currentMonth = dateNow.getMonth() + 1;
+        let currentDate = dateNow.getDate();        // day of the month
+
+        let dateTwoYearsAgo = new Date(dateNow.getFullYear() - 2,
+            currentMonth, currentDate);
+
+        let date18YearsAgo = new Date(dateNow.getFullYear() - 18,
+            currentMonth, currentDate);
+
+        if (dateOfBirth >= dateTwoYearsAgo) {
+            return new Infant(dateOfBirth);
+        }
+        if (dateOfBirth >= date18YearsAgo) {
+            return new Child(dateOfBirth);
+        }
+        return new Adult(dateOfBirth);
+    }
+}
+
+let factory = new PersonFactory();
+let p1 = factory.getPerson(new Date(2015, 0, 20));
+p1.printDetails();
+let p2 = factory.getPerson(new Date(2000, 0, 20));
+p2.printDetails();
+let p3 = factory.getPerson(new Date(1969, 0, 20));
+p3.printDetails();

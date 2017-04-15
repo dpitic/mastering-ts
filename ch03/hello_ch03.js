@@ -346,8 +346,125 @@ var Manager = (function () {
     function Manager() {
     }
     Manager.prototype.printDetails = function () {
-        console.log("id: " + this.id + ", name: " + this.name + ", \n            employeeCount: " + this.employees.length);
+        console.log("id: " + this.id + ", name: " + this.name + ",\n            employeeCount: " + this.employees.length);
     };
     return Manager;
 }());
+var AbstractEmployee = (function () {
+    function AbstractEmployee() {
+    }
+    AbstractEmployee.prototype.printDetails = function () {
+        // This calls the subclass getDetails()
+        console.log(this.getDetails());
+    };
+    return AbstractEmployee;
+}());
+var NewEmployee = (function (_super) {
+    __extends(NewEmployee, _super);
+    function NewEmployee() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NewEmployee.prototype.getDetails = function () {
+        return "id: " + this.id + ", name: " + this.name;
+    };
+    return NewEmployee;
+}(AbstractEmployee));
+var NewManager = (function (_super) {
+    __extends(NewManager, _super);
+    function NewManager() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NewManager.prototype.getDetails = function () {
+        return _super.prototype.getDetails.call(this) + (", employeeCount: " + this.employees.length);
+    };
+    return NewManager;
+}(NewEmployee));
+var employee = new NewEmployee();
+employee.id = 1;
+employee.name = "Employee Name";
+employee.printDetails();
+var manager = new NewManager();
+manager.id = 2;
+manager.name = "Manager Name";
+manager.employees = new Array();
+manager.printDetails();
+// Factory Design pattern
+// ======================
+var PersonCategory;
+(function (PersonCategory) {
+    PersonCategory[PersonCategory["Infant"] = 0] = "Infant";
+    PersonCategory[PersonCategory["Child"] = 1] = "Child";
+    PersonCategory[PersonCategory["Adult"] = 2] = "Adult";
+})(PersonCategory || (PersonCategory = {}));
+var Person = (function () {
+    function Person(dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+    Person.prototype.printDetails = function () {
+        console.log("Person: ");
+        console.log("Date of Birth : " + this.dateOfBirth.toDateString());
+        console.log("Category      : " + PersonCategory[this.category]);
+        console.log("Can sign      : " + this.canSignContracts());
+    };
+    return Person;
+}());
+var Infant = (function (_super) {
+    __extends(Infant, _super);
+    function Infant(dateOfBirth) {
+        var _this = _super.call(this, dateOfBirth) || this;
+        _this.category = PersonCategory.Infant;
+        return _this;
+    }
+    Infant.prototype.canSignContracts = function () { return false; };
+    return Infant;
+}(Person));
+var Child = (function (_super) {
+    __extends(Child, _super);
+    function Child(dateOfBirth) {
+        var _this = _super.call(this, dateOfBirth) || this;
+        _this.category = PersonCategory.Child;
+        return _this;
+    }
+    Child.prototype.canSignContracts = function () { return false; };
+    return Child;
+}(Person));
+var Adult = (function (_super) {
+    __extends(Adult, _super);
+    function Adult(dateOfBirth) {
+        var _this = _super.call(this, dateOfBirth) || this;
+        _this.category = PersonCategory.Adult;
+        return _this;
+    }
+    Adult.prototype.canSignContracts = function () { return true; };
+    return Adult;
+}(Person));
+var PersonFactory = (function () {
+    function PersonFactory() {
+    }
+    /**
+     * Return the correct type of person based on the date of birth.
+     */
+    PersonFactory.prototype.getPerson = function (dateOfBirth) {
+        var dateNow = new Date(); // today's date
+        var currentMonth = dateNow.getMonth() + 1;
+        var currentDate = dateNow.getDate(); // day of the month
+        var dateTwoYearsAgo = new Date(dateNow.getFullYear() - 2, currentMonth, currentDate);
+        var date18YearsAgo = new Date(dateNow.getFullYear() - 18, currentMonth, currentDate);
+        if (dateOfBirth >= dateTwoYearsAgo) {
+            return new Infant(dateOfBirth);
+        }
+        if (dateOfBirth >= date18YearsAgo) {
+            return new Child(dateOfBirth);
+        }
+        return new Adult(dateOfBirth);
+    };
+    return PersonFactory;
+}());
+var factory = new PersonFactory();
+var p1 = factory.getPerson(new Date(2015, 0, 20));
+p1.printDetails();
+var p2 = factory.getPerson(new Date(2000, 0, 20));
+p2.printDetails();
+var p3 = factory.getPerson(new Date(1969, 0, 20));
+p3.printDetails();
 //# sourceMappingURL=hello_ch03.js.map
