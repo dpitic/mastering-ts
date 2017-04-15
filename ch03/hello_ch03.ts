@@ -26,10 +26,10 @@ idAndName = idOnly;
 // =======
 
 class SimpleClass {
-	id: number;
-	print(): void {
-		console.log(`SimpleClass has id: ${this.id}`);
-	}
+    id: number;
+    print(): void {
+        console.log(`SimpleClass has id: ${this.id}`);
+    }
 }
 
 let mySimpleClass = new SimpleClass();
@@ -88,7 +88,7 @@ class ComplexType implements IComplexType {
     constructor(idArg: string, nameArg: string);
     constructor(idArg: any, nameArg: any) {
         // Type guard for id
-        if(typeof idArg === "number") {
+        if (typeof idArg === "number") {
             this.id = idArg;
         }
         this.name = nameArg;
@@ -103,7 +103,7 @@ class ComplexType implements IComplexType {
     }
 
     usingOptionalParameters(optionalArg1?: number) {
-        if(optionalArg1) {
+        if (optionalArg1) {
             this.id = optionalArg1;
         }
     }
@@ -113,7 +113,7 @@ class ComplexType implements IComplexType {
     }
 
     usingRestSyntax(...argArray: number[]) {
-        if(argArray.length > 0) {
+        if (argArray.length > 0) {
             this.id = argArray[0];
         }
     }
@@ -132,7 +132,7 @@ ct_2.print();
 
 ct_1.usingTheAnyKeyword(true);
 ct_1.print();
-ct_1.usingTheAnyKeyword({id: 1, name: "string"});
+ct_1.usingTheAnyKeyword({ id: 1, name: "string" });
 ct_1.print();
 
 ct_1.usingOptionalParameters(1);
@@ -318,3 +318,103 @@ class MultipleInterfaces implements IFirstInterface, ISecondInterface {
 // The super keyword
 // =================
 
+class BaseClassWithConstructor {
+    private id: number;
+    constructor(_id: number) {
+        this.id = _id;
+    }
+}
+
+class DerivedClassWithConstructor extends BaseClassWithConstructor {
+    private name: string;
+    constructor(_id: number, _name: string) {
+        super(_id);
+        this.name = _name;
+    }
+}
+
+// Function overloading
+// ====================
+
+class BaseClassWithFunction {
+    public id: number;
+    getProperties(): string {
+        return `id: ${this.id}`;
+    }
+}
+
+class DerivedClassWithFunction extends BaseClassWithFunction {
+    public name: string;
+    getProperties(): string {
+        return `${super.getProperties()}, name: ${this.name}`;
+    }
+}
+
+var derivedClassWithFunction = new DerivedClassWithFunction();
+derivedClassWithFunction.id = 1;
+derivedClassWithFunction.name = "derivedName";
+console.log(`${derivedClassWithFunction.getProperties()}`);
+
+// Protected class members
+// =======================
+
+class ClassUsingProtected {
+    protected id: number;
+    public getId() {
+        return this.id;
+    }
+}
+
+class DerivedFromProtected extends ClassUsingProtected {
+    constructor() {
+        super();
+        this.id = 0;
+    }
+}
+
+var derivedFromProtected = new DerivedFromProtected();
+// id property of derivedFromProtected is protected; not accessible here
+console.log(`getId() returns: ${derivedFromProtected.getId()}`);
+
+// Abstract classes
+// ================
+
+class Employee {
+    public id: number;
+    public name: string;
+    printDetails() {
+        console.log(`id: ${this.id}, name: ${this.name}`);
+    }
+}
+
+class Manager {
+    public id: number;
+    public name: string;
+    public employees: Employee[];
+    printDetails() {
+        console.log(`id: ${this.id}, name: ${this.name}, 
+            employeeCount: ${this.employees.length}`);
+    }
+}
+
+abstract class AbstractEmployee {
+    public id: number;
+    public name: string;
+    abstract getDetails(): string;
+    public printDetails() {
+        console.log(this.getDetails());
+    }
+}
+
+class NewEmployee extends AbstractEmployee {
+    getDetails(): string {
+        return `id: ${this.id}, name: ${this.name}`;
+    }
+}
+
+class NewManager extends NewEmployee {
+    public employees: NewEmployee[];
+    getDetails(): string {
+        return super.getDetails() + `, employeeCount: ${this.employees.length}`;
+    }
+}
