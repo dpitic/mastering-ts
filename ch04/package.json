@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "dpitic",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/reflect-metadata": "0.0.5",
+    "reflect-metadata": "^0.1.10"
+  }
 }
