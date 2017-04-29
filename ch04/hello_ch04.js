@@ -236,4 +236,33 @@ __decorate([
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Number)
 ], ClassWithMetaData.prototype, "print");
+// Generics
+// ========
+var Concatenator = (function () {
+    function Concatenator() {
+    }
+    Concatenator.prototype.concatenateArray = function (inputArray) {
+        var returnString = "";
+        for (var i = 0; i < inputArray.length; i++) {
+            if (i > 0) {
+                returnString += ",";
+            }
+            returnString += inputArray[i].toString();
+        }
+        return returnString;
+    };
+    return Concatenator;
+}());
+var stringConcat = new Concatenator();
+var numberConcat = new Concatenator();
+var concatResult = stringConcat.concatenateArray(["first", "second", "third"]);
+console.log(concatResult);
+var stringArray = ["first", "second", "third"];
+var numberArray = [1, 2, 3];
+var stringResult = stringConcat.concatenateArray(stringArray);
+console.log(stringResult);
+var numberResult = numberConcat.concatenateArray(numberArray);
+console.log(numberResult);
+// Using the type T
+// ================
 //# sourceMappingURL=hello_ch04.js.map

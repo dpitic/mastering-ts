@@ -209,7 +209,41 @@ function metadataParameterDec(target: any, methodName: string,
 }
 
 class ClassWithMetaData {
-	print(@metadataParameterDec id: number, name: string): number {
-		return 1000;
+  print( @metadataParameterDec id: number, name: string): number {
+    return 1000;
+  }
+}
+
+// Generics
+// ========
+
+class Concatenator<T> {
+	concatenateArray(inputArray: Array<T>): string {
+		let returnString = "";
+
+		for (let i = 0; i < inputArray.length; i++) {
+			if (i > 0) {
+				returnString += ",";
+			}
+			returnString += inputArray[i].toString();
+		}
+		return returnString;
 	}
 }
+
+var stringConcat = new Concatenator<string>();
+var numberConcat = new Concatenator<number>();
+
+let concatResult = stringConcat.concatenateArray(
+	["first", "second", "third"]);
+console.log(concatResult);
+
+var stringArray: string[] = ["first", "second", "third"];
+var numberArray: number[] = [1, 2, 3];
+var stringResult = stringConcat.concatenateArray(stringArray);
+console.log(stringResult);
+var numberResult = numberConcat.concatenateArray(numberArray);
+console.log(numberResult);
+
+// Using the type T
+// ================
