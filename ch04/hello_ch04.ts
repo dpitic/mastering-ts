@@ -110,9 +110,9 @@ class ClassWithPropertyDec {
 // Property decorators can also be applies to static class properties. The
 // actual arguments that are pased in at runtime are slightly different.
 
-class StaticClassWithPropertyDec {
-  @propertyDec static name: string;
-}
+// class StaticClassWithPropertyDec {
+//   @propertyDec static name: string;
+// }
 
 // Method decorators
 // =================
@@ -247,3 +247,27 @@ console.log(numberResult);
 
 // Using the type T
 // ================
+
+class MyClass {
+	private _name: string;
+	constructor(arg1: number) {
+		this._name = arg1 + "_MyClass";
+	}
+	toString(): string {
+		return this._name;
+	}
+}
+
+let myArray: MyClass[] = [
+	new MyClass(1),
+	new MyClass(2),
+	new MyClass(3)
+]
+
+let myArrayConcatenator = new Concatenator<MyClass>();
+let myArrayResult = myArrayConcatenator.concatenateArray(myArray);
+console.log(myArrayResult);
+
+// Constraining the type of T
+// ==========================
+

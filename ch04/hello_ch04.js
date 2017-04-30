@@ -123,15 +123,9 @@ __decorate([
 // ==========================
 // Property decorators can also be applies to static class properties. The
 // actual arguments that are pased in at runtime are slightly different.
-var StaticClassWithPropertyDec = (function () {
-    function StaticClassWithPropertyDec() {
-    }
-    return StaticClassWithPropertyDec;
-}());
-__decorate([
-    propertyDec,
-    __metadata("design:type", String)
-], StaticClassWithPropertyDec, "name");
+// class StaticClassWithPropertyDec {
+//   @propertyDec static name: string;
+// }
 // Method decorators
 // =================
 function methodDec(target, methodName, descriptor) {
@@ -265,4 +259,23 @@ var numberResult = numberConcat.concatenateArray(numberArray);
 console.log(numberResult);
 // Using the type T
 // ================
+var MyClass = (function () {
+    function MyClass(arg1) {
+        this._name = arg1 + "_MyClass";
+    }
+    MyClass.prototype.toString = function () {
+        return this._name;
+    };
+    return MyClass;
+}());
+var myArray = [
+    new MyClass(1),
+    new MyClass(2),
+    new MyClass(3)
+];
+var myArrayConcatenator = new Concatenator();
+var myArrayResult = myArrayConcatenator.concatenateArray(myArray);
+console.log(myArrayResult);
+// Constraining the type of T
+// ==========================
 //# sourceMappingURL=hello_ch04.js.map
