@@ -1,16 +1,6 @@
+"use strict";
 // Decorators
 // ==========
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,7 +13,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-exports.__esModule = true;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // Decordator syntax
 // =================
 // A decorator is simply a function which is called with a specific set of
@@ -33,33 +31,27 @@ exports.__esModule = true;
 // determine where a decorator can be applied.
 // Simple class decorator
 function simpleDecorator(constructor) {
-    console.log("simpleDecorator called.");
+    console.log(`simpleDecorator called.`);
 }
 // Decorators are applied when a class is being defined; not when instantiated
-var ClassWithSimpleDecorator = (function () {
-    function ClassWithSimpleDecorator() {
-    }
-    return ClassWithSimpleDecorator;
-}());
+let ClassWithSimpleDecorator = class ClassWithSimpleDecorator {
+};
 ClassWithSimpleDecorator = __decorate([
     simpleDecorator
 ], ClassWithSimpleDecorator);
 // Decorators are only invoked as the class is being defined.
-var instance_1 = new ClassWithSimpleDecorator();
-var instance_2 = new ClassWithSimpleDecorator();
-console.log("instance_1: " + instance_1);
-console.log("instance_2: " + instance_2);
+let instance_1 = new ClassWithSimpleDecorator();
+let instance_2 = new ClassWithSimpleDecorator();
+console.log(`instance_1: ${instance_1}`);
+console.log(`instance_2: ${instance_2}`);
 // Multiple decorators
 // ===================
 function secondDecorator(constructor) {
     console.log('secondDecorator called.');
 }
 // Decorators are called in reverse order.
-var ClassWithMultipleDecorators = (function () {
-    function ClassWithMultipleDecorators() {
-    }
-    return ClassWithMultipleDecorators;
-}());
+let ClassWithMultipleDecorators = class ClassWithMultipleDecorators {
+};
 ClassWithMultipleDecorators = __decorate([
     simpleDecorator,
     secondDecorator
@@ -71,14 +63,11 @@ ClassWithMultipleDecorators = __decorate([
 // function itself.
 function decoratorFactory(name) {
     return function (constructor) {
-        console.log("decorator function called with: " + name);
+        console.log(`decorator function called with: ${name}`);
     };
 }
-var ClasswithDecoratorFactory = (function () {
-    function ClasswithDecoratorFactory() {
-    }
-    return ClasswithDecoratorFactory;
-}());
+let ClasswithDecoratorFactory = class ClasswithDecoratorFactory {
+};
 ClasswithDecoratorFactory = __decorate([
     decoratorFactory('testName')
 ], ClasswithDecoratorFactory);
@@ -87,21 +76,18 @@ ClasswithDecoratorFactory = __decorate([
 // Class decorators will be invoked with the constructor function of the class
 // that has been decorated, when the class is defined.
 function classConstructorDec(constructor) {
-    console.log("constructor: " + constructor);
-    console.log("constructor.name: " + constructor.name);
+    console.log(`constructor: ${constructor}`);
+    console.log(`constructor.name: ${constructor.name}`);
     constructor.prototype.testProperty = 'testProperty_value';
 }
-var ClassWithConstructor = (function () {
-    function ClassWithConstructor() {
-    }
-    return ClassWithConstructor;
-}());
+let ClassWithConstructor = class ClassWithConstructor {
+};
 ClassWithConstructor = __decorate([
     classConstructorDec
 ], ClassWithConstructor);
-var classConstrInstance = new ClassWithConstructor();
-console.log("classConstrInstance.testProperty: " +
-    ("" + classConstrInstance.testProperty));
+let classConstrInstance = new ClassWithConstructor();
+console.log(`classConstrInstance.testProperty: ` +
+    `${classConstrInstance.testProperty}`);
 // Property Decorators
 // ===================
 // Property decorators are decorator functions that can be used on class
@@ -113,22 +99,19 @@ function propertyDec(target, propertyKey) {
     // console.log(`target: ${target}`);
     // console.log(`target.constructor: ${target.constructor}`);
     if (typeof (target) === 'function') {
-        console.log("class name: " + target.name);
+        console.log(`class name: ${target.name}`);
     }
     else {
-        console.log("class name: " + target.constructor.name);
+        console.log(`class name: ${target.constructor.name}`);
     }
-    console.log("propertyKey: " + propertyKey);
+    console.log(`propertyKey: ${propertyKey}`);
 }
-var ClassWithPropertyDec = (function () {
-    function ClassWithPropertyDec() {
-    }
-    return ClassWithPropertyDec;
-}());
+class ClassWithPropertyDec {
+}
 __decorate([
     propertyDec,
     __metadata("design:type", String)
-], ClassWithPropertyDec.prototype, "name");
+], ClassWithPropertyDec.prototype, "name", void 0);
 // Static property decorators
 // ==========================
 // Property decorators can also be applies to static class properties. The
@@ -139,76 +122,67 @@ __decorate([
 // Method decorators
 // =================
 function methodDec(target, methodName, descriptor) {
-    console.log("target: " + target);
-    console.log("methodName: " + methodName);
-    console.log("target[methodName]: " + target[methodName]);
+    console.log(`target: ${target}`);
+    console.log(`methodName: ${methodName}`);
+    console.log(`target[methodName]: ${target[methodName]}`);
 }
-var ClassWithMethodDec = (function () {
-    function ClassWithMethodDec() {
+class ClassWithMethodDec {
+    print(output) {
+        console.log(`ClassWithMethodDec.print (${output}) called.`);
     }
-    ClassWithMethodDec.prototype.print = function (output) {
-        console.log("ClassWithMethodDec.print (" + output + ") called.");
-    };
-    return ClassWithMethodDec;
-}());
+}
 __decorate([
     methodDec,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ClassWithMethodDec.prototype, "print");
+], ClassWithMethodDec.prototype, "print", null);
 // Using method decorators
 // =======================
 // Injecting new functionality into the class. In this case, logging a message
 // to the console every time a method is called.
 function auditLogDec(target, methodName, descriptor) {
     // Get the definition of the method that we are decorating
-    var originalFunction = target[methodName];
-    var auditFunction = function () {
-        console.log("auditLogDec: overide of " + methodName + " called ");
+    let originalFunction = target[methodName];
+    let auditFunction = function () {
+        console.log(`auditLogDec: overide of ${methodName} called `);
         // Call the original function
         originalFunction.apply(this, arguments);
     };
     // Wrap the original function with the new function
     target[methodName] = auditFunction;
 }
-var ClassWithAuditDec = (function () {
-    function ClassWithAuditDec() {
+class ClassWithAuditDec {
+    print(output) {
+        console.log(`ClassWithAuditDec.print (${output}) called.`);
     }
-    ClassWithAuditDec.prototype.print = function (output) {
-        console.log("ClassWithAuditDec.print (" + output + ") called.");
-    };
-    return ClassWithAuditDec;
-}());
+}
 __decorate([
     auditLogDec,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ClassWithAuditDec.prototype, "print");
-var auditClass = new ClassWithAuditDec();
+], ClassWithAuditDec.prototype, "print", null);
+let auditClass = new ClassWithAuditDec();
 auditClass.print("test");
 // Parameter decorators
 // ====================
 // Used to decorate the parameters of a particular method.
 function parameterDec(target, methodName, parameterIndex) {
-    console.log("target: " + target);
-    console.log("methodName: " + methodName);
-    console.log("parameterIndex: " + parameterIndex);
+    console.log(`target: ${target}`);
+    console.log(`methodName: ${methodName}`);
+    console.log(`parameterIndex: ${parameterIndex}`);
 }
-var ClassWithParamDec = (function () {
-    function ClassWithParamDec() {
+class ClassWithParamDec {
+    print(value) {
     }
-    ClassWithParamDec.prototype.print = function (value) {
-    };
-    return ClassWithParamDec;
-}());
+}
 __decorate([
     __param(0, parameterDec),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ClassWithParamDec.prototype, "print");
+], ClassWithParamDec.prototype, "print", null);
 // Decorator metadata
 // ==================
 // The TypeScript compiler includes experimental support for decorator metadata.
@@ -219,47 +193,41 @@ __decorate([
 // npm install @types/reflect-metadata --save-dev
 require("reflect-metadata");
 function metadataParameterDec(target, methodName, parameterIndex) {
-    var designType = Reflect.getMetadata("design:type", target, methodName);
-    console.log("designType: " + designType);
-    var designParamTypes = Reflect.getMetadata("design:paramtypes", target, methodName);
-    console.log("paramtypes: " + designParamTypes);
-    var designReturnType = Reflect.getMetadata("design:returntype", target, methodName);
-    console.log("returntypes: " + designReturnType);
+    let designType = Reflect.getMetadata("design:type", target, methodName);
+    console.log(`designType: ${designType}`);
+    let designParamTypes = Reflect.getMetadata("design:paramtypes", target, methodName);
+    console.log(`paramtypes: ${designParamTypes}`);
+    let designReturnType = Reflect.getMetadata("design:returntype", target, methodName);
+    console.log(`returntypes: ${designReturnType}`);
 }
-var ClassWithMetaData = (function () {
-    function ClassWithMetaData() {
-    }
-    ClassWithMetaData.prototype.print = function (id, name) {
+class ClassWithMetaData {
+    print(id, name) {
         return 1000;
-    };
-    return ClassWithMetaData;
-}());
+    }
+}
 __decorate([
     __param(0, metadataParameterDec),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Number)
-], ClassWithMetaData.prototype, "print");
+], ClassWithMetaData.prototype, "print", null);
 // Generics
 // ========
-var Concatenator = (function () {
-    function Concatenator() {
-    }
-    Concatenator.prototype.concatenateArray = function (inputArray) {
-        var returnString = "";
-        for (var i = 0; i < inputArray.length; i++) {
+class Concatenator {
+    concatenateArray(inputArray) {
+        let returnString = "";
+        for (let i = 0; i < inputArray.length; i++) {
             if (i > 0) {
                 returnString += ",";
             }
             returnString += inputArray[i].toString();
         }
         return returnString;
-    };
-    return Concatenator;
-}());
+    }
+}
 var stringConcat = new Concatenator();
 var numberConcat = new Concatenator();
-var concatResult = stringConcat.concatenateArray(["first", "second", "third"]);
+let concatResult = stringConcat.concatenateArray(["first", "second", "third"]);
 console.log(concatResult);
 var stringArray = ["first", "second", "third"];
 var numberArray = [1, 2, 3];
@@ -269,22 +237,21 @@ var numberResult = numberConcat.concatenateArray(numberArray);
 console.log(numberResult);
 // Using the type T
 // ================
-var MyClass = (function () {
-    function MyClass(arg1) {
+class MyClass {
+    constructor(arg1) {
         this._name = arg1 + "_MyClass";
     }
-    MyClass.prototype.toString = function () {
+    toString() {
         return this._name;
-    };
-    return MyClass;
-}());
-var myArray = [
+    }
+}
+let myArray = [
     new MyClass(1),
     new MyClass(2),
     new MyClass(3)
 ];
-var myArrayConcatenator = new Concatenator();
-var myArrayResult = myArrayConcatenator.concatenateArray(myArray);
+let myArrayConcatenator = new Concatenator();
+let myArrayResult = myArrayConcatenator.concatenateArray(myArray);
 console.log(myArrayResult);
 // Constraining the type of T
 // ==========================
@@ -293,80 +260,189 @@ var ClubHomeCountry;
     ClubHomeCountry[ClubHomeCountry["England"] = 0] = "England";
     ClubHomeCountry[ClubHomeCountry["Germany"] = 1] = "Germany";
 })(ClubHomeCountry || (ClubHomeCountry = {}));
-var FootballClub = (function () {
-    function FootballClub() {
-    }
-    FootballClub.prototype.getName = function () { return this._name; };
+class FootballClub {
+    getName() { return this._name; }
     ;
-    FootballClub.prototype.getHomeCountry = function () { return this._homeCountry; };
+    getHomeCountry() { return this._homeCountry; }
     ;
-    return FootballClub;
-}());
-var Liverpool = (function (_super) {
-    __extends(Liverpool, _super);
-    function Liverpool() {
-        var _this = _super.call(this) || this;
-        _this._name = "Liverpool F.C.";
-        _this._homeCountry = ClubHomeCountry.England;
-        return _this;
+}
+class Liverpool extends FootballClub {
+    constructor() {
+        super();
+        this._name = "Liverpool F.C.";
+        this._homeCountry = ClubHomeCountry.England;
     }
-    return Liverpool;
-}(FootballClub));
-var BorussiaDortmund = (function (_super) {
-    __extends(BorussiaDortmund, _super);
-    function BorussiaDortmund() {
-        var _this = _super.call(this) || this;
-        _this._name = "Borussia Dortmund";
-        _this._homeCountry = ClubHomeCountry.Germany;
-        return _this;
+}
+class BorussiaDortmund extends FootballClub {
+    constructor() {
+        super();
+        this._name = "Borussia Dortmund";
+        this._homeCountry = ClubHomeCountry.Germany;
     }
-    return BorussiaDortmund;
-}(FootballClub));
+}
 // IFootballClubPrinter<T> defined below in Generic Interfaces
-var FootballClubPrinter = (function () {
-    function FootballClubPrinter() {
+class FootballClubPrinter {
+    print(arg) {
+        console.log(` ${arg.getName()} is` +
+            ` ${this.IsEnglishTeam(arg)} ` +
+            `an English football team.`);
     }
-    FootballClubPrinter.prototype.print = function (arg) {
-        console.log(" " + arg.getName() + " is" +
-            (" " + this.IsEnglishTeam(arg) + " ") +
-            "an English football team.");
-    };
     ;
-    FootballClubPrinter.prototype.IsEnglishTeam = function (arg) {
+    IsEnglishTeam(arg) {
         if (arg.getHomeCountry() == ClubHomeCountry.England) {
             return "";
         }
         else {
             return "NOT";
         }
-    };
-    return FootballClubPrinter;
-}());
-var clubInfo = new FootballClubPrinter();
+    }
+}
+let clubInfo = new FootballClubPrinter();
 clubInfo.print(new Liverpool());
 clubInfo.print(new BorussiaDortmund());
 // Creating new objects within generics
 // ====================================
-var FirstClass = (function () {
-    function FirstClass() {
-    }
-    return FirstClass;
-}());
-var SecondClass = (function () {
-    function SecondClass() {
-    }
-    return SecondClass;
-}());
-var GenericCreator = (function () {
-    function GenericCreator() {
-    }
-    GenericCreator.prototype.create = function (arg1) {
+class FirstClass {
+}
+class SecondClass {
+}
+class GenericCreator {
+    create(arg1) {
         return new arg1();
-    };
-    return GenericCreator;
-}());
+    }
+}
 var creator1 = new GenericCreator();
 var firstClass = creator1.create(FirstClass);
 var creator2 = new GenericCreator();
 var secondClass = creator2.create(SecondClass);
+// Promises
+// ========
+// Typical callback code. Working with a lot of callbacks can make the cdoe
+// become complex and repetitive.
+function delayedResponseWithCallback(callback) {
+    function delayedAfterTimeout() {
+        console.log(`delayedAfterTimeout`);
+        callback();
+    }
+    // Simulate processing delay
+    setTimeout(delayedAfterTimeout, 1000);
+}
+function callDelayedAndWait() {
+    function afterWait() {
+        console.log(`afterWait`);
+    }
+    console.log(`calling delayedResponseWithCallback()`);
+    delayedResponseWithCallback(afterWait);
+    console.log(`after caling delayedResponseWithCallback()`);
+}
+callDelayedAndWait();
+// Promise syntax
+// ==============
+// A promise is an object that is created by passing in a function that accepts
+// two callbacks. The ifrst callback is used to indicate a successful response,
+// and the second callback is used to indicate an error response.
+function fnDelayedPromise(resolve, reject) {
+    function afterTimeout() {
+        resolve();
+    }
+    setTimeout(afterTimeout, 2000);
+}
+// Promise object
+function delayedResponsePromies() {
+    return new Promise(fnDelayedPromise);
+}
+// The preceding two functions are normally combined into the same code block.
+function delayedPromise() {
+    return new Promise((resolve, reject) => {
+        function afterTimeout() {
+            resolve();
+        }
+        setTimeout(afterTimeout, 1000);
+    });
+}
+// Using promises
+// ==============
+function callDelayedPromise() {
+    console.log(`calling delayedPromise()`);
+    delayedPromise().then(() => { console.log(`delayedPromise.then()`); });
+}
+callDelayedPromise();
+function errorPromise() {
+    return new Promise((resolve, reject) => {
+        reject();
+    });
+}
+function callErrorPromise() {
+    console.log(`calling errorPromise()`);
+    errorPromise().then(() => { console.log(`no error.`); }).catch(() => { console.log(`an error occurred`); });
+}
+callErrorPromise();
+// Callback versus promise syntax
+// ==============================
+function invokeAsync(success, error) {
+    // execute asynchronous code
+}
+function standardCallback() {
+    function afterCallbackSuccess() {
+        // execute on success
+    }
+    function afterCallbackError() {
+        // execute on error
+    }
+    // Invoke async function
+    invokeAsync(afterCallbackSuccess, afterCallbackError);
+}
+function usingPromises() {
+    // Invoke async function here
+    delayedPromise().then(() => {
+        // execute on success
+    }).catch(() => {
+        // execute on error
+    });
+}
+// Returning values from promises
+// ==============================
+function delayedPromiseWithParam() {
+    return new Promise((resolve, reject) => {
+        function afterWait() {
+            resolve("resolved_within_promise");
+        }
+        setTimeout(afterWait, 2000);
+    });
+}
+function callPromiseWithParam() {
+    console.log(`calling delayedPromiseWithParam()`);
+    delayedPromiseWithParam().then(
+    // Anonymous function to call on success
+    (message) => {
+        console.log(`Promise.then() returned ${message}`);
+    });
+}
+callPromiseWithParam();
+function promiseWithInterface() {
+    return new Promise((resolve, reject) => {
+        resolve({ message: "test", id: 1 });
+    });
+}
+// Async and await
+// ===============
+function awaitDelayed() {
+    return new Promise((resolve, reject) => {
+        function afterWait() {
+            console.log(`calling resolve()`);
+            resolve();
+        }
+        setTimeout(afterWait, 1000);
+    });
+}
+function callAwaitDelayed() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(`call awaitDelayed()`);
+        yield awaitDelayed();
+        console.log(`after awaitDelayed()`);
+    });
+}
+callAwaitDelayed();
+// Await errors
+// ============
 //# sourceMappingURL=hello_ch04.js.map

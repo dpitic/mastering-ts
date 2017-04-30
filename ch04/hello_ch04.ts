@@ -283,9 +283,9 @@ interface IFootballClub {
 
 abstract class FootballClub implements IFootballClub {
   protected _name: string;
-		protected _homeCountry: ClubHomeCountry;
-		getName() { return this._name };
-		getHomeCountry() { return this._homeCountry };
+  protected _homeCountry: ClubHomeCountry;
+  getName() { return this._name };
+  getHomeCountry() { return this._homeCountry };
 }
 
 class Liverpool extends FootballClub {
@@ -313,13 +313,13 @@ class FootballClubPrinter<T extends IFootballClub>
       ` ${this.IsEnglishTeam(arg)} ` +
       `an English football team.`);
   };
-	IsEnglishTeam(arg: T): string {
-		if (arg.getHomeCountry() == ClubHomeCountry.England) {
-			return "";
-		} else {
-			return "NOT";
-		}
-	}
+  IsEnglishTeam(arg: T): string {
+    if (arg.getHomeCountry() == ClubHomeCountry.England) {
+      return "";
+    } else {
+      return "NOT";
+    }
+  }
 }
 
 let clubInfo = new FootballClubPrinter();
@@ -330,28 +330,221 @@ clubInfo.print(new BorussiaDortmund());
 // ==================
 
 interface IFootballClubPrinter<T extends IFootballClub> {
-	print(arg: T);
-	IsEnglishTeam(arg: T);
+  print(arg: T);
+  IsEnglishTeam(arg: T);
 }
 
 // Creating new objects within generics
 // ====================================
 
 class FirstClass {
-	id: number;
+  id: number;
 }
 
 class SecondClass {
-	name: string;
+  name: string;
 }
 
 class GenericCreator<T> {
-	create(arg1: { new(): T}): T {
-		return new arg1();
-	}
+  create(arg1: { new (): T }): T {
+    return new arg1();
+  }
 }
- var creator1 = new GenericCreator<FirstClass>();
- var firstClass: FirstClass = creator1.create(FirstClass);
+var creator1 = new GenericCreator<FirstClass>();
+var firstClass: FirstClass = creator1.create(FirstClass);
 
- var creator2 = new GenericCreator<SecondClass>();
- var secondClass: SecondClass = creator2.create(SecondClass);
+var creator2 = new GenericCreator<SecondClass>();
+var secondClass: SecondClass = creator2.create(SecondClass);
+
+// Promises
+// ========
+
+// Typical callback code. Working with a lot of callbacks can make the cdoe
+// become complex and repetitive.
+
+function delayedResponseWithCallback(callback: Function) {
+  function delayedAfterTimeout() {
+    console.log(`delayedAfterTimeout`);
+    callback();
+  }
+  // Simulate processing delay
+  setTimeout(delayedAfterTimeout, 1000);
+}
+
+function callDelayedAndWait() {
+  function afterWait() {
+    console.log(`afterWait`);
+  }
+  console.log(`calling delayedResponseWithCallback()`);
+  delayedResponseWithCallback(afterWait);
+  console.log(`after caling delayedResponseWithCallback()`);
+}
+
+callDelayedAndWait();
+
+// Promise syntax
+// ==============
+
+// A promise is an object that is created by passing in a function that accepts
+// two callbacks. The ifrst callback is used to indicate a successful response,
+// and the second callback is used to indicate an error response.
+
+function fnDelayedPromise(resolve: () => void, reject: () => void) {
+  function afterTimeout() {
+    resolve();
+  }
+  setTimeout(afterTimeout, 2000);
+}
+
+// Promise object
+function delayedResponsePromies(): Promise<void> {
+  return new Promise<void>(fnDelayedPromise);
+}
+
+// The preceding two functions are normally combined into the same code block.
+function delayedPromise(): Promise<void> {
+  return new Promise<void>(
+    (resolve: () => void, reject: () => void) => {
+      function afterTimeout() {
+        resolve();
+      }
+
+      setTimeout(afterTimeout, 1000);
+    }
+  );
+}
+
+// Using promises
+// ==============
+
+function callDelayedPromise() {
+  console.log(`calling delayedPromise()`);
+  delayedPromise().then(
+    () => { console.log(`delayedPromise.then()`) }
+  );
+}
+
+callDelayedPromise();
+
+function errorPromise(): Promise<void> {
+  return new Promise<void>(
+    (resolve: () => void, reject: () => void) => {
+      reject();
+    }
+  );
+}
+
+function callErrorPromise() {
+  console.log(`calling errorPromise()`);
+  errorPromise().then(
+    () => { console.log(`no error.`) }
+  ).catch(
+    () => { console.log(`an error occurred`) }
+  );
+}
+
+callErrorPromise();
+
+// Callback versus promise syntax
+// ==============================
+
+function invokeAsync(success: Function, error: Function) {
+  // execute asynchronous code
+}
+
+function standardCallback() {
+  function afterCallbackSuccess() {
+    // execute on success
+  }
+  function afterCallbackError() {
+    // execute on error
+  }
+  // Invoke async function
+  invokeAsync(afterCallbackSuccess, afterCallbackError);
+}
+
+function usingPromises() {
+  // Invoke async function here
+  delayedPromise().then(
+    () => {
+      // execute on success
+    }
+  ).catch(
+    () => {
+      // execute on error
+    }
+  );
+}
+
+// Returning values from promises
+// ==============================
+
+function delayedPromiseWithParam(): Promise<string> {
+  return new Promise<string>(
+    (
+      resolve: (str: string) => void,
+      reject: (str: string) => void
+    ) => {
+      function afterWait() {
+        resolve("resolved_within_promise");
+      }
+      setTimeout(afterWait, 2000);
+    }
+  );
+}
+
+function callPromiseWithParam() {
+  console.log(`calling delayedPromiseWithParam()`);
+  delayedPromiseWithParam().then(
+    // Anonymous function to call on success
+    (message: string) => {
+      console.log(`Promise.then() returned ${message}`);
+    }
+  );
+}
+
+callPromiseWithParam();
+
+interface IPromiseMessage {
+  message: string;
+  id: number;
+}
+
+function promiseWithInterface(): Promise<IPromiseMessage> {
+  return new Promise<IPromiseMessage>(
+    (
+      resolve: (message: IPromiseMessage) => void,
+      reject: (message: IPromiseMessage) => void
+    ) => {
+      resolve({message: "test", id: 1});
+    }
+  );
+}
+
+// Async and await
+// ===============
+
+function awaitDelayed(): Promise<void> {
+  return new Promise<void>(
+    (resolve: () => void,
+    reject: () => void) => {
+      function afterWait() {
+        console.log(`calling resolve()`);
+        resolve();
+      }
+      setTimeout(afterWait, 1000);
+    }
+  );
+}
+
+async function callAwaitDelayed() {
+  console.log(`call awaitDelayed()`);
+  await awaitDelayed();
+  console.log(`after awaitDelayed()`);
+}
+
+callAwaitDelayed();
+
+// Await errors
+// ============
+
