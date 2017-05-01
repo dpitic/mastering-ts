@@ -1,6 +1,6 @@
-"use strict";
 // Decorators
 // ==========
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -445,4 +445,67 @@ function callAwaitDelayed() {
 callAwaitDelayed();
 // Await errors
 // ============
+function awaitError() {
+    return new Promise((resolve, reject) => {
+        function afterWait() {
+            console.log(`calling reject`);
+            reject("an error occurred");
+        }
+        setTimeout(afterWait, 1000);
+    });
+}
+function callAwaitError() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(`call awaitError()`);
+        try {
+            yield awaitError();
+        }
+        catch (error) {
+            console.log(`error returned: ${error}`);
+        }
+        console.log(`after awaitDelayed()`);
+    });
+}
+callAwaitError();
+// Promise versus await syntax
+// ===========================
+function simplePromises() {
+    // invoke async function
+    delayedPromise().then(() => {
+        // execute on success
+    }).catch(() => {
+        // execute on error
+    });
+    // code here does NOT wait for async call
+}
+function usingAsyncSyntax() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield delayedPromise();
+            // execute on success
+        }
+        catch (error) {
+            //execute on error
+        }
+        // code here waits for async call
+    });
+}
+// Await messages
+// ==============
+function asyncwithMessage() {
+    return new Promise((resolve, reject) => {
+        function afterWait() {
+            resolve("resolve_message");
+        }
+        setTimeout(afterWait, 1000);
+    });
+}
+function awaitMessage() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(`calling asyncwithMessage()`);
+        let message = yield asyncwithMessage();
+        console.log(`message returned: ${message}`);
+    });
+}
+awaitMessage();
 //# sourceMappingURL=hello_ch04.js.map

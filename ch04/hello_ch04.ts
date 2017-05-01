@@ -440,7 +440,7 @@ function callErrorPromise() {
     () => { console.log(`no error.`) }
   ).catch(
     () => { console.log(`an error occurred`) }
-  );
+    );
 }
 
 callErrorPromise();
@@ -473,7 +473,7 @@ function usingPromises() {
     () => {
       // execute on error
     }
-  );
+    );
 }
 
 // Returning values from promises
@@ -516,7 +516,7 @@ function promiseWithInterface(): Promise<IPromiseMessage> {
       resolve: (message: IPromiseMessage) => void,
       reject: (message: IPromiseMessage) => void
     ) => {
-      resolve({message: "test", id: 1});
+      resolve({ message: "test", id: 1 });
     }
   );
 }
@@ -527,7 +527,7 @@ function promiseWithInterface(): Promise<IPromiseMessage> {
 function awaitDelayed(): Promise<void> {
   return new Promise<void>(
     (resolve: () => void,
-    reject: () => void) => {
+      reject: () => void) => {
       function afterWait() {
         console.log(`calling resolve()`);
         resolve();
@@ -548,3 +548,79 @@ callAwaitDelayed();
 // Await errors
 // ============
 
+function awaitError(): Promise<string> {
+  return new Promise<string>(
+    (resolve: (message: string) => void,
+      reject: (error: string) => void) => {
+      function afterWait() {
+        console.log(`calling reject`);
+        reject("an error occurred");
+      }
+      setTimeout(afterWait, 1000);
+    }
+  );
+}
+
+async function callAwaitError() {
+  console.log(`call awaitError()`);
+		try {
+    await awaitError();
+		} catch (error) {
+    console.log(`error returned: ${error}`);
+		}
+		console.log(`after awaitDelayed()`);
+}
+
+callAwaitError();
+
+// Promise versus await syntax
+// ===========================
+
+function simplePromises() {
+  // invoke async function
+  delayedPromise().then(
+    () => {
+      // execute on success
+    }
+  ).catch(
+    () => {
+      // execute on error
+    }
+    );
+  // code here does NOT wait for async call
+}
+
+async function usingAsyncSyntax() {
+  try {
+    await delayedPromise();
+    // execute on success
+  } catch (error) {
+    //execute on error
+  }
+  // code here waits for async call
+}
+
+// Await messages
+// ==============
+
+function asyncwithMessage(): Promise<string> {
+  return new Promise<string>(
+    (resolve: (message: string) => void,
+      reject: (message: string) => void
+    ) => {
+      function afterWait() {
+        resolve("resolve_message");
+      }
+      setTimeout(afterWait, 1000);
+    }
+  );
+}
+
+async function awaitMessage() {
+	console.log(`calling asyncwithMessage()`);
+	let message: string = await asyncwithMessage();
+
+	console.log(`message returned: ${message}`);
+}
+
+awaitMessage();
