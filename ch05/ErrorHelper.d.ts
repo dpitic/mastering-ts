@@ -2,23 +2,18 @@
 // ==================
 
 declare module ErrorHelper {
-    function containsErrors(response);
-    function trace(message);
+  function containsErrors(response: IResponse);
+  function trace(message: IResponse);
 }
 
 // Interfaces
 // ==========
 
 interface IResponse {
-    responseText: IFailureMessage;
+  responseText: IFailureMessage;
 }
 
 interface IFailureMessage {
-    failure: boolean;
-    errorMesage: string;
-}
-
-declare module ErrorHelper {
-    function containsErrors(response: IResponse);
-    function trace(message: IResponse);
+  failure: boolean;
+  errorMesage: string;
 }
