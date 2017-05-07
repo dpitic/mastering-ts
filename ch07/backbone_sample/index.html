@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src="./node_modules/jbone/dist/jbone.js"></script>
+  <script type="text/javascript" src="./node_modules/underscore/underscore.js"></script>
+  <script type="text/javascript" src="./node_modules/backbone/backbone.js"></script>
+  <script type="text/javascript" src="./app/BackboneApp.js"></script>
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css" type="text/css" />
+</head>
+
+<body>
+  <script>
+    window.onload = function () {
+      app = new ScreenViewApp();
+      app.start();
+    }
+  </script>
+
+  <!-- This is where the resultant HTML will be placed -->
+  <div id="pageLayoutRegion"></div>
+
+  <script type="text/template" id="itemCollectionViewTemplate">
+    <h1>
+      <%= DisplayName %>
+    </h1>
+    <!-- Rendered HTML for child models -->
+    <ul id="ulRegions"></ul>
+  </script>
+
+  <!-- Backbone uses Underscore's templating engine by default -->
+  <script type="text/template" id="itemViewTemplate">
+    <button class="btn btn-primary"><%= DisplayName %></button>
+  </script>
+
+</body>
+
+</html>
