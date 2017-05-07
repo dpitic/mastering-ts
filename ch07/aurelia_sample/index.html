@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- This file lives in the root directory of the Aurelia application. -->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Aurelia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <!--
+    Look for main.js file in the src directory as the initial starting point
+    for the application. There does not appear to be any obvious links in the
+    main.ts file to the app.ts file, or the App class. It appears that Aurelia
+    uses this standard naming convention as a way of finding and bootstrapping
+    the Aurelia environment.
+  -->
+  <body aurelia-app="main">
+    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+  </body>
+</html>

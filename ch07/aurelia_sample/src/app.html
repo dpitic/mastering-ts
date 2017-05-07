@@ -1,0 +1,20 @@
+<!-- 
+  Aurelia views
+  =============
+  Aurelia uses a naming convention to tie clases to their views. The class
+  is named App, and therefore the Aurelia runtime will search the same
+  directory as the class to find a HTML template with the same name. It will
+  tie app.ts to app.html and use app.html as a template.
+
+  This file lives in the src directory of the Aurelia application.
+-->
+<template>
+  <h1>${message}</h1>
+  <ul>
+    <!-- Loop through the items property of the App class. -->
+    <li repeat.for="item of items"
+      click.delegate="onItemClicked(item)">
+      <button>${item.displayName}</button>
+    </li>
+  </ul>
+</template>
